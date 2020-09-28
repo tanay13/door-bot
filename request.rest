@@ -1,0 +1,52 @@
+GET http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGFuYXkiLCJpYXQiOjE2MDEwMDY4OTQsImV4cCI6MTYwMTAwNjkyNH0.kVODmKYG-TRZv9qFp_rAru0xHn2MkL_o7iZuhCRSv30
+###
+
+DELETE http://localhost:4000/logout
+Content-Type: application/json
+
+{
+    "token":""
+}
+
+
+###
+
+POST http://localhost:4000/token
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGFuYXkiLCJpYXQiOjE2MDEwMDY4OTR9.Az3wklKGo7yhoLZF7--xRKMVR1Tc0NaE3znDbxYiqYo"
+    
+}
+
+###
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+        "name":"tan_r",
+        "password":"imtanay1"
+}
+
+
+###
+POST http://localhost:3000/userreg
+Content-Type: application/json
+
+{
+    "name":"tan_",
+    "password":"imtanayd"
+}
+
+###
+POST http://localhost:3000/ownreq
+Content-Type: application/json
+
+{
+        "Shopname":"dasd",
+        "description":"asfd",
+        "address":"das",
+        "timing":"dfdsvcx",
+        "imagePath":"dvcxv"
+}
