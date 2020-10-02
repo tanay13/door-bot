@@ -1,16 +1,9 @@
 GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGFuYXkiLCJpYXQiOjE2MDEwMDY4OTQsImV4cCI6MTYwMTAwNjkyNH0.kVODmKYG-TRZv9qFp_rAru0xHn2MkL_o7iZuhCRSv30
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.dGFuMw.grtpipvC4HpgNM6mmmbidA8IudgCONBDIA0q3tfVjHA
 ###
 
-DELETE http://localhost:4000/logout
-Content-Type: application/json
-
-{
-    "token":""
-}
 
 
-###
 
 POST http://localhost:4000/token
 Content-Type: application/json
@@ -21,12 +14,12 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:4000/login
+POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-        "name":"tan_r",
-        "password":"imtanay1"
+        "name":"tan3",
+        "password":"imtanayd"
 }
 
 
@@ -35,7 +28,7 @@ POST http://localhost:3000/userreg
 Content-Type: application/json
 
 {
-    "name":"tan_",
+    "name":"tan3",
     "password":"imtanayd"
 }
 
@@ -50,3 +43,13 @@ Content-Type: application/json
         "timing":"dfdsvcx",
         "imagePath":"dvcxv"
 }
+
+###
+
+DELETE  http://localhost:3000/logout
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiJ9.dGFuMw.grtpipvC4HpgNM6mmmbidA8IudgCONBDIA0q3tfVjHA"
+}
+

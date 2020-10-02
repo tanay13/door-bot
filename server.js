@@ -11,6 +11,7 @@ const Owner = require('./model/owner')
 var groceryRoutes =require("./routes/grocery");
 var laptopRoutes  =require("./routes/laptop");
 
+
 const app = express()
 const db = process.env.DB_CONNECT
 app.use(express.json())
@@ -21,6 +22,9 @@ app.use(express.static(path.join(__dirname, '/public')))
 mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
   .then(()=>console.log("db connected"))
   .catch(err=>console.log(err))
+
+
+let Tokens = []
 
 const posts=[
     {
@@ -62,7 +66,7 @@ app.post("/userreg",(req,res)=>{
                     console.log("saved")
                     User.find({})
                     .then((user)=>{
-                        console.log(user)
+                        //console.log(user)
                     })
                 })
                 .catch(err=>console.log(err))
@@ -71,6 +75,57 @@ app.post("/userreg",(req,res)=>{
 
               
 })
+
+// ---------------------------------------------------------------
+
+// LOGIN ROUTE 
+app.post('/login',(req,res)=>{
+    //Authenticate user
+    const name = req.body.name
+
+    const password = req.body.password
+
+    User.findOne({name:name})
+    .then(user=>{
+        if(user==null){
+            return res.status(400).send("cannot find user")
+        }
+        else{
+            try{
+                if(req.body.password === user.password){
+                    // res.send("Success")
+                    const accessToken = jwt.sign(name, process.env.ACCESS_TOKEN_SECRET)
+                    // const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+                    
+                    Tokens.push(accessToken)
+                    console.log(Tokens)
+                    res.json({accessToken:accessToken})
+                }
+                else{
+                    res.send("not allowed")
+                }
+            }
+            catch{
+                res.status(500).send()
+            }
+            
+        
+        }
+    })
+    
+    
+
+
+})
+
+// --------------------logout----------------------------------------------------
+
+app.delete('/logout',(req,res)=>{
+    tok = req.body.token
+    Tokens = Tokens.filter(token=>token!==tok)
+    res.sendStatus(204)
+})
+
 
 app.use("/laptop",laptopRoutes);
 app.use("/grocery",groceryRoutes);
@@ -81,19 +136,22 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/posts',authenticateToken,(req,res)=>{
-    res.json(posts.filter(post=> post.username === req.user.name))
+    res.json(posts)
 })
 
 
 function authenticateToken(req,res,next){
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
-    if(token ==null) return res.sendStatus(401)
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user)=>{
-        if(err) return res.sendStatus(403)
-        req.user = user
-        next()
-    })
+    if(Tokens.includes(token)){
+        if(token ==null) return res.sendStatus(401)
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user)=>{
+            if(err) return res.sendStatus(403)
+            req.user = user
+            next()
+        })
+    }
+
     
 }  
 
@@ -102,67 +160,3 @@ app.listen(3000,()=>console.log(`server running on Port 3000`))
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const users = [
-
-// ]
-// app.get('/users',(req,res)=>{
-//     res.json(users)
-// })
-
-// app.post('/users',async(req,res)=>{
-
-//     try{
-//         const salt = await bcrypt.genSalt()
-//         const hashedPassword = await bcrypt.hash(req.body.password,salt)
-//         const user = {name:req.body.name, password:hashedPassword}
-//         users.push(user)
-//         res.status(201).send()
-//     }
-//     catch{
-//         res.status(500).send()
-//     }
-
-// })
-
-
-// app.post("/users/login", async(req,res)=>{
-//     const user = users.find(user=>user.name=req.body.name)
-//     if(user==null){
-//         return res.status(400).send("cannot find user")
-//     }
-//     try{
-//         if(await bcrypt.compare(req.body.password,user.password)){
-//             res.send("Success")
-//         }
-//         else{
-//             res.send("not allowed")
-//         }
-//     }
-//     catch{
-//         res.status(500).send()
-//     }
-// })
