@@ -6,22 +6,20 @@ var User = require("../model/Users");
 
 // Register Route
 
-
 router.get('/userreg', (req, res) => {
     res.render('register')
 })
 
 
 router.post("/userreg", async(req, res) => {
-    try{
-        //random username.. will fix it later
-        c="tan100";
-        var newUser=new User({name:req.body.name,username:c});
+    try{       
+        var newUser=new User({name:req.body.name,username:req.body.username});
         // waiting for this to register
         const registeredUser = await User.register(newUser,req.body.password)
+        // res.status(201).send(newUser)
         res.redirect('/')
         // logging just to ensure the user is saved
-        console.log(newUser)
+        
     }
     catch(e){
         //throwing errors
@@ -43,7 +41,7 @@ router.post('/login',passport.authenticate('local', {
   
   });
   
-
+//Logout Route
 
 
 router.get("/logout",function(req,res){

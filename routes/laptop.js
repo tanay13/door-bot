@@ -16,7 +16,7 @@ router.get("/",function(req,res){
 	
 });
 //SHOW - show more info 
-router.get("/:id",middleware.isLoggedIn,function(req,res){
+router.get("/:id",function(req,res){
 		
 		Owner.findById(req.params.id,function(err,foundLaptop){
 			if(err){
