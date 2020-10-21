@@ -1,11 +1,16 @@
 require('dotenv').config()
 const express = require('express')
+const bodyParser=require("body-parser")
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const path = require ('path');
+const passport  =require("passport");
+const LocalStrategy=require("passport-local");
+const flash    =require("connect-flash");
 const User = require('./model/Users')
-const Owner = require('./model/owner')
+const Owner = require('./model/owner');
+var middleware=require("./middleware");
+const authRoutes   =require("./routes/auth");
 //REQUIRING ROUTES
 // var carRoutes     =require("./routes/car"),
 var groceryRoutes =require("./routes/grocery");
@@ -13,10 +18,32 @@ var laptopRoutes  =require("./routes/laptop");
 
 
 const app = express()
+app.use(flash());    
 const db = process.env.DB_CONNECT
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json())
 app.set("view engine","ejs");
 app.use(express.static(path.join(__dirname, '/public')))
+
+//PASSPORT CONFIG
+app.use(require("express-session")({
+	secret:"Hey There!!!!!",
+	resave:false,
+	saveUninitialized:false
+	
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+app.use(function(req,res,next){     //to add currentUser to every route
+	res.locals.currentUser=req.user;
+	next();
+});
+
 
 //Connnect Mongo
 mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
@@ -24,136 +51,43 @@ mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
   .catch(err=>console.log(err))
 
 
-let Tokens = []
-
-const posts=[
-    {
-        username:"Tanay",
-        title:'1'
-    },
-    {
-        username:"Tan",
-        title:'2'
-    }
-]
-
-app.get('/userreg',(req,res)=>{
-    // res.render('userreg')
-})
-
-
-app.post("/userreg",(req,res)=>{
-    const {name,password}=req.body
-        //Validation passed
-        User.findOne({name:name})
-        .then(user=>{
-            if(user){
-                //User exists
-               console.log("already present")
-   
-            }else{
-                const newUser=new User({
-                    name,
-                    password
-                    
-                })
-
-                // save user
-                
-                newUser.save()
-                .then(user=>{
-                   
-                    console.log("saved")
-                    User.find({})
-                    .then((user)=>{
-                        //console.log(user)
-                    })
-                })
-                .catch(err=>console.log(err))
-            }
-        })
-
-              
-})
-
-// ---------------------------------------------------------------
-
-// LOGIN ROUTE 
-app.post('/login',(req,res)=>{
-    //Authenticate user
-    const name = req.body.name
-
-    const password = req.body.password
-
-    User.findOne({name:name})
-    .then(user=>{
-        if(user==null){
-            return res.status(400).send("cannot find user")
-        }
-        else{
-            try{
-                if(req.body.password === user.password){
-                    // res.send("Success")
-                    const accessToken = jwt.sign(name, process.env.ACCESS_TOKEN_SECRET)
-                    // const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-                    
-                    Tokens.push(accessToken)
-                    console.log(Tokens)
-                    res.json({accessToken:accessToken})
-                }
-                else{
-                    res.send("not allowed")
-                }
-            }
-            catch{
-                res.status(500).send()
-            }
-            
-        
-        }
-    })
-    
-    
-
-
-})
-
-// --------------------logout----------------------------------------------------
-
-app.delete('/logout',(req,res)=>{
-    tok = req.body.token
-    Tokens = Tokens.filter(token=>token!==tok)
-    res.sendStatus(204)
-})
-
-
 app.use("/laptop",laptopRoutes);
+app.use(authRoutes);
 app.use("/grocery",groceryRoutes);
 // app.use("/car",carRoutes);
 
 app.get('/',(req,res)=>{
     res.render('index')
 })
-
-app.get('/posts',authenticateToken,(req,res)=>{
-    res.json(posts)
+app.get('/new',middleware.isLoggedIn,(req,res)=>{
+    res.render('new')
 })
 
+app.post("/new",middleware.isLoggedIn,function(req,res){
 
-function authenticateToken(req,res,next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if(Tokens.includes(token)){
-        if(token ==null) return res.sendStatus(401)
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user)=>{
-            if(err) return res.sendStatus(403)
-            req.user = user
-            next()
-        })
-    }
+	//get data from form and add to campgrounds array
+	var name=req.body.Shopname;
+	var timing=req.body.timing;
+	var image=req.body.imagePath;
+	var desc=req.body.description;
+    var address = req.body.address;
+    var category = req.body.category;
+	var newOwner={Shopname:name,timing:timing,imagePath:image,description:desc,address:address,category:category}
+	//create new campground and save to database
+	Owner.create(newOwner,function(err,newlyCreated){
+		if(err){
+			console.log(err);
+			
+		}else{
+			console.log(newlyCreated);
+			res.redirect("/");
+		}
+	});
+	//redirect back to campgrounds page
+	
+});
 
-    
-}  
+
 
 app.listen(3000,()=>console.log(`server running on Port 3000`))
 

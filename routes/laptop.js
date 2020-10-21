@@ -1,7 +1,7 @@
 var express=require("express");
 var router=express.Router();
 var Owner=require("../model/owner");
-
+var middleware=require("../middleware");
 
 //Index Route
 router.get("/",function(req,res){
@@ -16,7 +16,7 @@ router.get("/",function(req,res){
 	
 });
 //SHOW - show more info 
-router.get("/:id",function(req,res){
+router.get("/:id",middleware.isLoggedIn,function(req,res){
 		
 		Owner.findById(req.params.id,function(err,foundLaptop){
 			if(err){

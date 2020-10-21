@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align:center;">
+        
+        Create your own Store
+           </h1>
+            <div style="width:30%; margin:25px auto;">
+                 <form action="/new" method="POST">
+                     <div class="form-group">
+                         <input class="form-control" type="text" name="Shopname" placeholder="Shopname">
+                     </div>
+                     <div class="form-group">
+                         <input class="form-control" type="text" name="imagePath"     
+                 placeholder="image url">   
+                     </div>
+                     <div class="form-group">
+                         <input class="form-control" type="text" name="description"     
+                 placeholder="description">   
+                     </div>
+                      <div class="form-group">
+                         <input class="form-control" type="text" name="timing"     
+                 placeholder="timing">   
+                     </div>
+                     <div class="form-group">
+                        <input class="form-control" type="text" name="address"     
+                placeholder="address">   
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Choose category:</label>
+                        <select name="category" id="category">
+                            <option value="Laptop">Laptop</option>
+                            <option value="Grocery">Grocery</option>
+                            <option value="Car">Car</option>
+                            <option value="electronics">Electronics</option>
+                            
+                          </select>   
+                    </div>
+                 <div class="form-group">
+                
+                 
+                 <button class="btn btn-lg btn-default btn-block btn-primary">
+                 Submit
+                 </button>
+                     </div>
+                 </form>
+                <a href="/">Back</a>
+            </div>
+          
+    
+        </div>
+    
+    
+    </div>
+</body>
+</html>
