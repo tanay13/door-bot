@@ -23,7 +23,7 @@ router.get("/:id",function(req,res){
 				console.log(err);
 			}else{	
 				res.render("grocerydesc",{Owner:foundgrocery});
-				console.log(foundgrocery)
+				
 			}
 			
 		});

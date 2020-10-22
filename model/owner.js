@@ -12,6 +12,17 @@ const OwnerSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    geometry:{
+        type:{
+            type:String,
+            enum:['Point'],
+            required:true
+        },
+        coordinates:{
+            type: [Number],
+            required:true
+        }
+    },
     address:{
         type:String,
         required:true

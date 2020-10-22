@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const app = express()
 const bodyParser=require("body-parser")
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose');
@@ -11,13 +12,15 @@ const User = require('./model/Users')
 const Owner = require('./model/owner');
 var middleware=require("./middleware");
 const authRoutes   =require("./routes/auth");
+var mbxgeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const token = process.env.MAPBOX_TOKEN
+const geocoder = mbxgeocoding({accessToken:token})
+
 //REQUIRING ROUTES
 // var carRoutes     =require("./routes/car"),
 var groceryRoutes =require("./routes/grocery");
 var laptopRoutes  =require("./routes/laptop");
 
-
-const app = express()
 app.use(flash());    
 const db = process.env.DB_CONNECT
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,11 +42,14 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-app.use(function(req,res,next){     //to add currentUser to every route
+
+ //to add currentUser to every route
+app.use(function(req,res,next){    
 	res.locals.currentUser=req.user;
+	res.locals.error=req.flash("error");
+	res.locals.success=req.flash("success");
 	next();
 });
-
 
 //Connnect Mongo
 mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
@@ -63,16 +69,20 @@ app.get('/new',middleware.isLoggedIn,(req,res)=>{
     res.render('new')
 })
 
-app.post("/new",middleware.isLoggedIn,function(req,res){
-
+app.post("/new",async(req,res)=>{
+	const geoData = await geocoder.forwardGeocode({
+		query:req.body.address,
+		limit:1
+	}).send()
 	//get data from form and add to campgrounds array
 	var name=req.body.Shopname;
 	var timing=req.body.timing;
 	var image=req.body.imagePath;
 	var desc=req.body.description;
     var address = req.body.address;
-    var category = req.body.category;
-	var newOwner={Shopname:name,timing:timing,imagePath:image,description:desc,address:address,category:category}
+	var category = req.body.category;
+	var geometry = geoData.body.features[0].geometry
+	var newOwner={Shopname:name,timing:timing,imagePath:image,description:desc,address:address,category:category,geometry:geometry}
 	//create new campground and save to database
 	Owner.create(newOwner,function(err,newlyCreated){
 		if(err){
@@ -83,14 +93,11 @@ app.post("/new",middleware.isLoggedIn,function(req,res){
 			res.redirect("/");
 		}
 	});
-	//redirect back to campgrounds page
+	
 	
 });
 
 
 
 app.listen(3000,()=>console.log(`server running on Port 3000`))
-
-
-
 
