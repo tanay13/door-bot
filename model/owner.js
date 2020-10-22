@@ -23,6 +23,13 @@ const OwnerSchema=new mongoose.Schema({
             required:true
         }
     },
+    author:{
+        id:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User"
+        },
+    username:String
+    },
     address:{
         type:String,
         required:true

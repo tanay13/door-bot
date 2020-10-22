@@ -1,70 +1,61 @@
-<!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>YelpCamp</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
 </head>
-
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">YelpCamp</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <%if(!currentUser){%>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Sign Up</a></li>
-                    <%}
-				    else{%>
-                    <li><a href="#">Signed in as <%=currentUser.username%></a></li>
-                    <li><a href="/logout">Logout</a></li>
-                    <%}%>
-				 
-
-			  </ul>
-		  </div>
-	  </div>
-     </nav>
-		
-		<div class="container">
-			<%if(error && error.length>0){%>
-                    <div class="alert alert-danger" role="alert">
-
-                        <%=error%>
-
-                    </div>
-                    <%}%>
-				<%if(success && success.length>0){%>
-                    <div class="alert alert-success" role="alert">
-
-                        <%=success%>
-
-                    </div>
-                    <%}%>
-        </div>
-        <form class="/register" method="POST">
-            <input type="text" name="username" placeholder="username">
-            <input type="text" name="name" placeholder="name">
-            <input type="password" name="password" placeholder="password">
-            <button>
-                Sign Up
+            <a class="navbar-brand" href="#">DoorBot</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-        </form>
-
-        <p>
-
-        </p>	
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <% if(!currentUser) {%>
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/userreg">Register</a>
+                    <% } else {%>
+                    <a class="nav-link" href="/logout">Logout</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+                <div class="card shadow">
+                    <img src="https://wallpapercave.com/wp/wp2647032.jpg"
+                        alt="" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title">Register</h5>
+                        <form action="/userreg" method="POST" class="validated-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" required autofocus>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Name</label>
+                                <input class="form-control" type="name" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" required>
+                            </div>
+                            <button class="btn btn-success btn-block">Register</button>
+                        </form>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-        
-	
-		
-
-		
-	
-		
-	

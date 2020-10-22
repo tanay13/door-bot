@@ -82,7 +82,11 @@ app.post("/new",async(req,res)=>{
     var address = req.body.address;
 	var category = req.body.category;
 	var geometry = geoData.body.features[0].geometry
-	var newOwner={Shopname:name,timing:timing,imagePath:image,description:desc,address:address,category:category,geometry:geometry}
+	var author={
+		id:req.user._id,
+		username:req.user.username
+	}
+	var newOwner={Shopname:name,timing:timing,imagePath:image,description:desc,address:address,category:category,geometry:geometry,author:author}
 	//create new campground and save to database
 	Owner.create(newOwner,function(err,newlyCreated){
 		if(err){

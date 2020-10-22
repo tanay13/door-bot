@@ -29,5 +29,16 @@ router.get("/:id",function(req,res){
 		});
 		
 	});
+//DESTROY Shop
+router.post("/:id",function(req,res){
+	Owner.findByIdAndRemove(req.params.id,function(err){
+		if(err){
+			res.redirect("/grocery");
+		}else{
+			res.redirect("/grocery");
+		}
+	})
+});
+
 
 module.exports=router;

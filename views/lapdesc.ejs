@@ -161,10 +161,16 @@
                         <div class="btn-dit-list clearfix">
                            <div class="left-dit-p">
                               <div class="prod-btn">
-                                 
                                  <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
                                  <p>23 likes</p>
                               </div>
+                              <!-- <% if(currentUser && Owner.author.id.equals(currentUser._id)){%> -->
+                              <form id="delete-form" action="/laptop/<%= Owner._id%>?_method=DELETE"  method="POST">
+                                 <button class="btn btn-danger">
+                                    DELETE
+                                 </button>
+                              </form>
+                              <!-- <% }%> -->
                            </div>
                            <div class="right-dit-p">
                            

@@ -163,6 +163,11 @@
 
                            <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like this</a>
                            <p>23 likes</p>
+                           <form id="delete-form" action="/grocery/<%= Owner._id%>?_method=DELETE"  method="POST">
+                              <button class="btn btn-danger">
+                                 DELETE
+                              </button>
+                           </form>
                         </div>
                      </div>
                      <div class="right-dit-p">
