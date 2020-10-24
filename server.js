@@ -10,6 +10,8 @@ const LocalStrategy=require("passport-local");
 const flash    =require("connect-flash");
 const User = require('./model/Users')
 const Owner = require('./model/owner');
+const session = require('express-session');
+const Mongostore = require('connect-mongo')(session);
 var middleware=require("./middleware");
 const authRoutes   =require("./routes/auth");
 var mbxgeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
@@ -23,13 +25,30 @@ var laptopRoutes  =require("./routes/laptop");
 
 app.use(flash());    
 const db = process.env.DB_CONNECT
+//Connnect Mongo
+mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
+  .then(()=>console.log("db connected"))
+  .catch(err=>console.log(err))
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json())
 app.set("view engine","ejs");
 app.use(express.static(path.join(__dirname, '/public')))
 
+const store = new Mongostore({
+	url:db,
+	secret:"Hey There!!!!!",
+	touchAfter:24*3600
+});
+
+store.on("error",function(e){
+	console.log("SESSION STORE ERROR",e)
+
+})
+
 //PASSPORT CONFIG
-app.use(require("express-session")({
+app.use(session({
+	store,
 	secret:"Hey There!!!!!",
 	resave:false,
 	saveUninitialized:false
@@ -51,10 +70,6 @@ app.use(function(req,res,next){
 	next();
 });
 
-//Connnect Mongo
-mongoose.connect(db,{useNewUrlParser:true,useUnifiedTopology:true})
-  .then(()=>console.log("db connected"))
-  .catch(err=>console.log(err))
 
 
 app.use("/laptop",laptopRoutes);

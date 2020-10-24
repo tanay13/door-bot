@@ -5,7 +5,7 @@ var middleware=require("../middleware");
 
 //Index Route
 router.get("/",function(req,res){
-	//get campgrounds from DB
+	//get shop from DB
 	Owner.find({category:"Grocery"},function(err,allgrocery){
 		if(err){
 			console.log(err);
