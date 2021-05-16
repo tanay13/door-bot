@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render('laptoppage', { Owner: allCar });
+      res.render('carpage', { Owner: allCar });
     }
   });
 });
@@ -20,7 +20,7 @@ router.get('/:id', function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render('lapdesc', { Owner: foundCar });
+      res.render('caardesc', { Owner: foundCar });
     }
   });
 });

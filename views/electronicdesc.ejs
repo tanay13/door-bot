@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DoorBot - Online service provider</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--enable mobile device-->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--fontawesome css-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <!--bootstrap css-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <!--animate css-->
+    <link rel="stylesheet" href="/css/animate-wow.css" />
+    <!--main css-->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="/css/slick.min.css" />
+    <!--responsive css-->
+    <link rel="stylesheet" href="css/responsive.css" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header id="header" class="top-head">
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4 col-sm-12 left-rs">
+              <div class="navbar-header">
+                <button
+                  type="button"
+                  id="top-menu"
+                  class="navbar-toggle collapsed"
+                  data-toggle="collapse"
+                  data-target="#navbar"
+                  aria-expanded="false"
+                >
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand"
+                  ><img src="/images/logo3.png" alt=""
+                /></a>
+              </div>
+              <form class="navbar-form navbar-left web-sh">
+                <div class="form">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <div class="right-nav">
+                <div class="login-sr">
+                  <div class="login-signup">
+                    <ul>
+                      <%if(!currentUser){%>
+                      <li><a href="/login">Login</a></li>
+                      <li><a class="custom-b" href="/userreg">Sign up</a></li>
+                      <%} else{%>
+                      <li>
+                        <a href="#">Signed in as <%=currentUser.name%></a>
+                      </li>
+                      <li><a class="custom-b" href="/logout">Logout</a></li>
+                      <%}%>
+                    </ul>
+                  </div>
+                </div>
+                <div class="help-r hidden-xs">
+                  <div class="help-box">
+                    <ul>
+                      <li>
+                        <a data-toggle="modal" data-target="#myModal" href="#">
+                          <img src="/images/flag.jpg" alt="" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#"
+                          ><img
+                            class="h-i"
+                            src="/images/help-icon.png"
+                            alt=""
+                          />
+                          Help
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="nav-b hidden-xs">
+                  <div class="nav-box">
+                    <a class="btn btn-primary" href="/new" role="button"
+                      >Create Your shop</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.container-fluid -->
+      </nav>
+    </header>
+    <!-- Modal -->
+    <div class="modal fade lug" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title">Change</h4>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li>
+                <a href="#"
+                  ><img src="/images/flag-up-1.png" alt="" /> United States</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><img src="/images/flag-up-2.png" alt="" /> France
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <%if(error && error.length>0){%>
+      <div class="alert alert-danger" role="alert"><%=error%></div>
+      <%}%> <%if(success && success.length>0){%>
+      <div class="alert alert-success" role="alert"><%=success%></div>
+      <%}%>
+    </div>
+    <div class="terms-conditions product-page">
+      <div class="terms-title">
+        <div class="container">
+          <div class="row">
+            <ol class="breadcrumb">
+              <li><a href="#">Frontpage </a></li>
+              <li class="active">Electronics</li>
+              <li class="active">Electronics shop description</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="product-page-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="prod-page-title"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7 col-sm-8">
+            <div class="md-prod-page">
+              <div class="md-prod-page-in">
+                <div class="page-preview">
+                  <div class="preview">
+                    <div class="preview-pic tab-content">
+                      <div class="tab-pane active" id="pic-1">
+                        <img src="<%= Owner.imagePath %>" alt="#" />
+                      </div>
+                      <div class="tab-pane" id="pic-2">
+                        <img src="/images/lag-61.png" alt="#" />
+                      </div>
+                      <div class="tab-pane" id="pic-3">
+                        <img src="/images/lag-60.png" alt="#" />
+                      </div>
+                      <div class="tab-pane" id="pic-4">
+                        <img src="/images/lag-61.png" alt="#" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-dit-list clearfix">
+                  <div class="left-dit-p">
+                    <div class="prod-btn">
+                      <a href="#"
+                        ><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like
+                        this</a
+                      >
+                      <p>23 likes</p>
+                      <form
+                        id="delete-form"
+                        action="/grocery/<%= Owner._id%>?_method=DELETE"
+                        method="POST"
+                      >
+                        <button class="btn btn-danger">DELETE</button>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="right-dit-p"></div>
+                </div>
+              </div>
+              <div class="description-box">
+                <div class="dex-a">
+                  <h4>Description</h4>
+                  <p><%= Owner.description%></p>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <div class="price-box-right">
+              <a href="#">Contact store</a>
+              <h5>
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <strong>16 hours</strong> avg. responsive time
+              </h5>
+            </div>
+            <div
+              id="map"
+              style="width: 250px; height: 200px; margin: 10px"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer></footer>
+    <!--main js-->
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <!--bootstrap js-->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-select.min.js"></script>
+    <script src="/js/slick.min.js"></script>
+    <script src="/js/select2.full.min.js"></script>
+    <script src="/js/wow.min.js"></script>
+    <!--custom js-->
+    <script src="/js/custom.js"></script>
+    <script>
+      const Owner = <%- JSON.stringify(Owner) %>;
+               mapboxgl.accessToken = '<%- process.env.MAPBOX_TOKEN -%>';
+               const map = new mapboxgl.Map({
+                  container: 'map',
+                  style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+                  center:Owner.geometry.coordinates, // starting position [lng, lat]
+                  zoom: 12 // starting zoom
+               });
+
+               new mapboxgl.Marker()
+               .setLngLat(Owner.geometry.coordinates)
+               .setPopup(
+                  new mapboxgl.Popup({offset:25})
+                     .setHTML(
+                        `<h3>${Owner.name}<h3>`
+                     )
+               )
+               .addTo(map)
+    </script>
+  </body>
+</html>
