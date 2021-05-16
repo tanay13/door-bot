@@ -23,6 +23,7 @@ const geocoder = mbxgeocoding({ accessToken: token });
 var groceryRoutes = require('./routes/grocery');
 var laptopRoutes = require('./routes/laptop');
 var carRoutes = require('./routes/car');
+var electRoutes = require('./routes/electronic');
 
 app.use(flash());
 const db = process.env.DB_CONNECT;
@@ -74,6 +75,7 @@ app.use('/laptop', laptopRoutes);
 app.use(authRoutes);
 app.use('/grocery', groceryRoutes);
 app.use('/car', carRoutes);
+app.use('/electronic', electRoutes);
 
 app.get('/', (req, res) => {
   res.render('index');
