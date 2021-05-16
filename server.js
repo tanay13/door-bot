@@ -75,7 +75,7 @@ app.use('/laptop', laptopRoutes);
 app.use(authRoutes);
 app.use('/grocery', groceryRoutes);
 app.use('/car', carRoutes);
-app.use('/electronic', electRoutes);
+app.use('/electronics', electRoutes);
 
 app.get('/', (req, res) => {
   res.render('index');

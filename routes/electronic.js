@@ -6,7 +6,7 @@ var middleware = require('../middleware');
 //Index Route
 router.get('/', function (req, res) {
   //get campgrounds from DB
-  Owner.find({ category: 'Electronics' }, function (err, allElec) {
+  Owner.find({ category: 'electronics' }, function (err, allElec) {
     if (err) {
       console.log(err);
     } else {
