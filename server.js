@@ -85,12 +85,6 @@ app.get('/new', middleware.isLoggedIn, (req, res) => {
 });
 
 app.post('/new', async (req, res) => {
-  const geoData = await geocoder
-    .forwardGeocode({
-      query: req.body.address,
-      limit: 1,
-    })
-    .send();
   //get data from form and add to campgrounds array
   var name = req.body.Shopname;
   var timing = req.body.timing;
@@ -98,7 +92,6 @@ app.post('/new', async (req, res) => {
   var desc = req.body.description;
   var address = req.body.address;
   var category = req.body.category;
-  var geometry = geoData.body.features[0].geometry;
   var author = {
     id: req.user._id,
     username: req.user.username,
@@ -110,7 +103,6 @@ app.post('/new', async (req, res) => {
     description: desc,
     address: address,
     category: category,
-    geometry: geometry,
     author: author,
   };
   //create new campground and save to database

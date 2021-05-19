@@ -244,25 +244,5 @@
     <script src="/js/wow.min.js"></script>
     <!--custom js-->
     <script src="/js/custom.js"></script>
-    <script>
-      const Owner = <%- JSON.stringify(Owner) %>;
-               mapboxgl.accessToken = '<%- process.env.MAPBOX_TOKEN -%>';
-               const map = new mapboxgl.Map({
-                  container: 'map',
-                  style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-                  center:Owner.geometry.coordinates, // starting position [lng, lat]
-                  zoom: 12 // starting zoom
-               });
-
-               new mapboxgl.Marker()
-               .setLngLat(Owner.geometry.coordinates)
-               .setPopup(
-                  new mapboxgl.Popup({offset:25})
-                     .setHTML(
-                        `<h3>${Owner.name}<h3>`
-                     )
-               )
-               .addTo(map)
-    </script>
   </body>
 </html>
