@@ -78,7 +78,13 @@ app.use('/car', carRoutes);
 app.use('/electronics', electRoutes);
 
 app.get('/', (req, res) => {
-  res.render('index');
+  Owner.find({}, function (err, allProd) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('test', { Owner: allProd });
+    }
+  });
 });
 app.get('/new', middleware.isLoggedIn, (req, res) => {
   res.render('new');
