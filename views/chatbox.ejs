@@ -1,32 +1,34 @@
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/chat.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/chat.css">
 </head>
+
 <body>
-    <button class="open-button" onclick="openForm()">Chat</button>
+  <button class="open-button" onclick="openForm()">Feedback</button>
 
-<div class="chat-popup" id="myForm">
+  <div class="chat-popup" id="myForm">
     <form action="/action_page.php" class="form-container">
-    <h1>Chat</h1>
+      <h3>Feedback Form</h3>
 
-    <label for="msg"><b>Message</b></label>
-    <textarea placeholder="Type message.." name="msg" required></textarea>
+      <textarea placeholder="Type message.." name="msg" required></textarea>
 
-    <button type="submit" class="btn">Send</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  </form>
-</div>
-    <script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
+      <button type="submit" class="btn">Send</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+  <script>
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-</script> 
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+  </script>
 </body>
+
 </html>
